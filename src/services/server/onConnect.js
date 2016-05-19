@@ -8,7 +8,10 @@ export default server => webSocket => {
     server
   }
 
-  server.connections.push(socket)
+  socket.send = (data) =>
+    socket.webSocket.send(JSON.stringify(data))
+
+  server.sockets.push(socket)
 
   server.handleConnect({
     id: socket.id,

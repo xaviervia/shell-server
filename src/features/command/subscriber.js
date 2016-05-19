@@ -1,4 +1,4 @@
-import startProcess from './helpers/startProcess'
+import { startProcess } from '../../services/process'
 import { newInput, newError } from './actions'
 import { compose } from 'redux'
 import hasElementWithSameId from '../../lib/hasElementWithSameId'

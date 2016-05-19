@@ -1,7 +1,8 @@
 import uuid from 'uuid'
 
 export default process => data =>
-  process.handleInput({
-    command: process.id,
+  process.handleError({
+    id: uuid.v4(),
+    process: process.id,
     data: data.toString()
   })

@@ -7,7 +7,7 @@ import {
 
 const initialState = {
   commands: [],
-  connections: [],
+  sockets: [],
   sessions: {},
   servers: []
 }
@@ -15,7 +15,7 @@ const initialState = {
 export default handleActions({
   [NEW_CLIENT]: (state, { type, payload }) => ({
     ...state,
-    connections: [...state.connections ].concat(payload)
+    sockets: [...state.sockets ].concat(payload)
   }),
 
   [NEW_COMMAND]: (state, { type, payload }) => ({

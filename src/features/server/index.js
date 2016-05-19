@@ -20,12 +20,12 @@ export default ({
 //   next(action)
 // }
 //
-// const dispatcher = ({ connections, handleConnect }) => {
+// const dispatcher = ({ sockets, handleConnect }) => {
 //   handleConnect( )
 // }
 //
 // const initialState = {
-//   connections: []
+//   sockets: []
 // }
 //
 // const reducer = (state = initialState, action = {}) => {
@@ -33,7 +33,7 @@ export default ({
 //     case 'CONNECTION':
 //       return {
 //         ...state,
-//         connections: state.connections
+//         sockets: state.sockets
 //           .concat(action.payload)
 //       }
 //
@@ -47,7 +47,7 @@ export default ({
 //   const wss = new Server({ port: 8080 })
 //
 //   const server = {
-//     connections: []
+//     sockets: []
 //     wss: wss,
 //     handleConnect: onConnect(server),
 //   }

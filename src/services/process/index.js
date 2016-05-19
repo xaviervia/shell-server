@@ -13,7 +13,7 @@ const breakdownCommand = (line) => {
   ]
 }
 
-export default ({ id, command, session }) => {
+export const startProcess = ({ id, command, session }) => {
   const spawned = spawn(...breakdownCommand(command))
   const process = {
     id,
@@ -31,3 +31,6 @@ export default ({ id, command, session }) => {
 
   return process
 }
+
+export const getProcess = ({ id }) =>
+  processes.find(process => process.id === id)
