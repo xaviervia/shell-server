@@ -8,6 +8,7 @@ import {
 const initialState = {
   commands: [],
   connections: [],
+  sessions: {},
   servers: []
 }
 
@@ -19,7 +20,11 @@ export default handleActions({
 
   [NEW_COMMAND]: (state, { type, payload }) => ({
     ...state,
-    commands: [ ...state.commands ].concat(payload)
+    commands: [ ...state.commands ].concat(payload),
+    sessions: {
+      ...state.sessions,
+      [payload.session]: payload.socket.id
+    }
   }),
 
   [NEW_SERVER]: (state, { type, payload }) => ({
