@@ -2,23 +2,23 @@ import { getServer, getSocket, startServer } from '../../services/server'
 
 import { newClient, newCommand } from './actions'
 import { compose } from 'redux'
-import hasElementWithSameId from '../../lib/hasElementWithSameId'
+import hasElementWithSameKey from '../../lib/hasElementWithSameKey'
 import not from '../../lib/not'
 
 let prevServerList = []
 let prevInputList = []
 
-const findSocketId = (state) => (commandId) =>
-  state.server.commands.find(command => command.id === commandId).socket.id
+const findSocketKey = (state) => (commandId) =>
+  state.server.commands.find(command => command.key === commandKey).socket.key
 
-export default ({ getState, dispatch }) => () => {
-  const state = getState()
+export default ({ newState, dispatch }) => {
+  const state = newState
 
   // This need to be done a simpler way
   const newServerList = state.server.servers
 
   newServerList
-    .filter(compose(not, hasElementWithSameId(prevServerList)))
+    .filter(compose(not, hasElementWithSameKey(prevServerList)))
     .map(serverData => {
       const server = startServer(serverData)
 
@@ -31,12 +31,12 @@ export default ({ getState, dispatch }) => () => {
   const newInputList = state.command.inputs
 
   newInputList
-    .filter(compose(not, hasElementWithSameId(prevInputList)))
+    .filter(compose(not, hasElementWithSameKey(prevInputList)))
     .map(input => {
-      const socketId = state.server.commands
-        .find(command => command.id === input.command).socket.id
+      const socketKey = state.server.commands
+        .find(command => command.key === input.command).socket.key
 
-      getSocket(socketId).send(input)
+      getSocket(socketKey).send(input)
     })
 
   prevInputList = newInputList

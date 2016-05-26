@@ -1,6 +1,7 @@
 import configureStore from './store'
 import command from './features/command'
 import server from './features/server'
+import createSubscriptions from 'redux-subscriptions'
 
 export default (ports) => {
   const store = configureStore({
@@ -8,9 +9,13 @@ export default (ports) => {
     server
   })
 
-  store.subscribe(command.subscriber(store))
-  store.subscribe(server.subscriber(store))
-
+  store.subscribe(
+    createSubscriptions(store)(
+      command.subscriber,
+      server.subscriber
+    )
+  )
+  
   ports.forEach(
     port => store.dispatch(server.actions.newServer(port))
   )

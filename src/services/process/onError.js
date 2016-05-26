@@ -2,7 +2,7 @@ import uuid from 'uuid'
 
 export default process => data =>
   process.handleError({
-    id: uuid.v4(),
-    process: process.id,
+    key: uuid.v4(),
+    process: process.key,
     data: data.toString()
   })

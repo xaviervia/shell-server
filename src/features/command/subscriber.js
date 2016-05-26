@@ -1,22 +1,20 @@
 import { startProcess } from '../../services/process'
 import { newInput, newError } from './actions'
-import { compose } from 'redux'
-import hasElementWithSameId from '../../lib/hasElementWithSameId'
-import not from '../../lib/not'
 
-let prevCommandList = []
+const commandsSelector = (state) =>
+  state &&
+  state.server &&
+  state.server.commands
 
-export default ({ getState, dispatch }) => () => {
-  const newCommandList = getState().server.commands
+export default ({ getDiff, dispatch }) => {
+  const [_, newCommands] = getDiff(commandsSelector) || []
 
-  newCommandList
-    .filter(compose(not, hasElementWithSameId(prevCommandList)))
-    .map(command => {
+  if (newCommands) {
+    newCommands.map(command => {
       const process = startProcess(command)
 
       process.handleInput = (input) => dispatch(newInput(input))
       process.handleError = (error) => dispatch(newError(error))
     })
-
-  prevCommandList = newCommandList
+  }
 }

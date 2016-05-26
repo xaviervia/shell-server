@@ -23,7 +23,7 @@ export default handleActions({
     commands: [ ...state.commands ].concat(payload),
     sessions: {
       ...state.sessions,
-      [payload.session]: payload.socket.id
+      [payload.session]: payload.socket.key
     }
   }),
 

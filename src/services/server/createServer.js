@@ -1,7 +1,7 @@
 import { Server } from 'ws'
 
-export default ({ id, port }) => ({
+export default ({ key, port }) => ({
   sockets: [],
-  id,
+  key,
   webSocketServer: new Server({ port })
 })

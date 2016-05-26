@@ -14,10 +14,10 @@ export const startServer = through
     return server
   })
 
-export const getServer = (id) =>
-  servers.find(server => server.id === id)
+export const getServer = (key) =>
+  servers.find(server => server.key === key)
 
-export const getSocket = (id) =>
+export const getSocket = (key) =>
   servers
     .reduce((sockets, server) => sockets.concat(server.sockets), [])
-    .find(socket => socket.id === id)
+    .find(socket => socket.key === key)

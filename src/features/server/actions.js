@@ -18,7 +18,7 @@ export const newCommand = (payload) => ({
 export const newServer = (port) => ({
   type: NEW_SERVER,
   payload: {
-    id: uuid.v4(),
+    key: uuid.v4(),
     port
   }
 })

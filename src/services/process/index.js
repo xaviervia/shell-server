@@ -13,10 +13,10 @@ const breakdownCommand = (line) => {
   ]
 }
 
-export const startProcess = ({ id, command, session }) => {
+export const startProcess = ({ key, command, session }) => {
   const spawned = spawn(...breakdownCommand(command))
   const process = {
-    id,
+    key,
     command,
     session,
     process: spawned,
@@ -32,5 +32,5 @@ export const startProcess = ({ id, command, session }) => {
   return process
 }
 
-export const getProcess = ({ id }) =>
-  processes.find(process => process.id === id)
+export const getProcess = ({ key }) =>
+  processes.find(process => process.key === key)

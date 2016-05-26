@@ -3,7 +3,7 @@ import onMessage from './onMessage'
 
 export default server => webSocket => {
   const socket = {
-    id: uuid.v4(),
+    key: uuid.v4(),
     webSocket,
     server
   }
@@ -14,8 +14,8 @@ export default server => webSocket => {
   server.sockets.push(socket)
 
   server.handleConnect({
-    id: socket.id,
-    server: server.id
+    key: socket.key,
+    server: server.key
   })
 
   webSocket.on('message', onMessage(socket))
