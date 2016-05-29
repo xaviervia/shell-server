@@ -14,7 +14,7 @@
     "redux": "^3.5.2",
     "redux-action": "^1.0.0",
     "redux-actions": "^0.9.1",
-    "redux-subscriptions": "^0.1.0",
+    "redux-subscriptions": "^0.2.0",
     "uuid": "^2.0.2",
     "ws": "^1.1.0"
   },

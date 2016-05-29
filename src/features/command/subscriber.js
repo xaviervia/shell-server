@@ -1,20 +1,15 @@
 import { startProcess } from '../../services/process'
 import { newInput, newError } from './actions'
-
-const commandsSelector = (state) =>
-  state &&
-  state.server &&
-  state.server.commands
+import get from '../../lib/get'
 
 export default ({ getDiff, dispatch }) => {
-  const [_, newCommands] = getDiff(commandsSelector) || []
+  const commandsDiff = getDiff(get('server.commands'))
 
-  if (newCommands) {
-    newCommands.map(command => {
-      const process = startProcess(command)
+  commandsDiff.after &&
+  commandsDiff.after.map(command => {
+    const process = startProcess(command)
 
-      process.handleInput = (input) => dispatch(newInput(input))
-      process.handleError = (error) => dispatch(newError(error))
-    })
-  }
+    process.handleInput = (input) => dispatch(newInput(input))
+    process.handleError = (error) => dispatch(newError(error))
+  })
 }

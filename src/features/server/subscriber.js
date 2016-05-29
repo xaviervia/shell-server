@@ -1,31 +1,24 @@
 import { getSocket, startServer } from '../../services/server'
 import { newClient, newCommand } from './actions'
-
-const serverSelector = (state) =>
-  state && state.server && state.server.servers
-
-const inputSelector = (state) =>
-  state && state.command && state.command.inputs
+import get from '../../lib/get'
 
 export default ({ newState, getDiff, dispatch }) => {
-  const [_, newServers] = getDiff(serverSelector) || []
-  const [__, newInputs] = getDiff(inputSelector) || []
+  const serversDiff = getDiff(get('server.servers'))
+  const inputsDiff = getDiff(get('command.inputs'))
 
-  if (newServers) {
-    newServers.map(serverData => {
-      const server = startServer(serverData)
+  serversDiff.after &&
+  serversDiff.after.map(serverData => {
+    const server = startServer(serverData)
 
-      server.handleConnect = (...xs) => dispatch(newClient(...xs))
-      server.handleMessage = (...xs) => dispatch(newCommand(...xs))
-    })
-  }
+    server.handleConnect = (...xs) => dispatch(newClient(...xs))
+    server.handleMessage = (...xs) => dispatch(newCommand(...xs))
+  })
 
-  if (newInputs) {
-    newInputs.map(input => {
-      const socketKey = newState.server.commands
-        .find(command => command.key === input.command).socket.key
+  inputsDiff.after &&
+  inputsDiff.after.map(input => {
+    const socketKey = newState.server.commands
+      .find(command => command.key === input.command).socket.key
 
-      getSocket(socketKey).send(input)
-    })
-  }
+    getSocket(socketKey).send(input)
+  })
 }
