@@ -5,8 +5,8 @@ import onStdOutput from './onStdOutput'
 
 const processes = []
 
-export const startProcess = ({ key, command, session, currentWorkingDirectory }) => {
-  const spawned = spawn(...command, { cwd: currentWorkingDirectory })
+export const startProcess = ({ key, command, session, workingDirectory }) => {
+  const spawned = spawn(...command, { cwd: workingDirectory })
   const process = {
     key,
     command,

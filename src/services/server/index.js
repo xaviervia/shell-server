@@ -17,7 +17,12 @@ export const startServer = through
 export const getServer = (key) =>
   servers.find(server => server.key === key)
 
-export const getSocket = (key) =>
-  servers
+export const getSocket = (key) => {
+  const socket = servers
     .reduce((sockets, server) => sockets.concat(server.sockets), [])
     .find(socket => socket.key === key)
+
+  return socket
+    ? socket
+    : { send: () => {} }
+}

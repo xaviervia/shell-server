@@ -4,9 +4,11 @@ import { red } from 'chalk'
 export default socket => message => {
   try {
     socket.server.handleMessage({
-      socket: {
-        key: socket.key,
-        server: socket.server.key
+      meta: {
+        socket: {
+          key: socket.key,
+          server: socket.server.key
+        },
       },
       ...JSON.parse(message)
     })

@@ -1,48 +1,13 @@
 import { startProcess } from '../../services/process'
-import { newStdOutput, newError } from './actions'
+import { newStdOutput, newStdError } from './actions'
 import get from '../../lib/get'
-import { statSync } from 'fs'
-import { red, green } from 'chalk'
-import path from 'path'
-import uuid from 'uuid'
-
-const breakdownCommand = (line) => {
-  const [command, ...args] = line.split(' ')
-
-  return [
-    command,
-    args
-  ]
-}
-
-const cdPlugin = ({ command,  currentWorkingDirectory, key }, state, dispatch) => {
-  if (command[0] === 'cd') {
-    const resolvedNewPath = path.resolve(
-      currentWorkingDirectory,
-      command[1][0]
-    )
-
-    try {
-      const stats = statSync(resolvedNewPath)
-
-      return newStdOutput({
-        key: uuid.v4(),
-        command: key,
-        data: `New working directory: ${resolvedNewPath}`,
-        currentWorkingDirectory: resolvedNewPath
-      })
-    } catch (e) {
-      return newStdOutput({
-        key: uuid.v4(),
-        command: key,
-        data: `Failed to cd to ${resolvedNewPath}`
-      })
-    }
-  }
-}
+import * as cdPlugin from './plugins/cdPlugin'
+import breakdownCommand from '../../lib/breakdownCommand'
+import { magenta } from 'chalk'
 
 export default ({ newState, getDiff, dispatch }) => {
   const commandsDiff = getDiff(get('server.commands'))
+  const pendingCommandDiff = getDiff(get('server.pendingCommand'))
 
   commandsDiff.after &&
   commandsDiff.after.map(command => {
@@ -50,15 +15,23 @@ export default ({ newState, getDiff, dispatch }) => {
       ...command,
       command: breakdownCommand(command.command)
     }
-    const stdOutputAction = cdPlugin(parsedCommand, newState, dispatch)
+    const stdOutputAction = cdPlugin.onNewCommand(parsedCommand, newState, dispatch)
 
     if (!stdOutputAction) {
       const process = startProcess(parsedCommand)
 
       process.handleInput = (input) => dispatch(newStdOutput(input))
-      process.handleError = (error) => dispatch(newError(error))
+      process.handleError = (error) => dispatch(newStdError(error))
     } else {
       process.nextTick(() => dispatch(stdOutputAction))
     }
   })
+
+  if (pendingCommandDiff.after) {
+    console.log(magenta('PENDING COMMAND DIFF'), pendingCommandDiff)
+
+    const parsedCommand = breakdownCommand(pendingCommandDiff.after)
+
+    cdPlugin.onUserInput(parsedCommand, newState, dispatch)
+  }
 }

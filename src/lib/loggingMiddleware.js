@@ -1,6 +1,7 @@
-import { blue, black } from 'chalk'
+import { blue } from 'chalk'
 
-export default ({ getState, dispatch }) => (next) => ({ type, payload }) =>
-  (setTimeout(() => console.log(blue(type), payload)), true) &&
-  (setTimeout(() => console.log(black(JSON.stringify(getState(), 2)))), true) &&
+export default ({ getState, dispatch }) => (next) => ({ type, payload }) => {
+  console.log(blue(type), payload)
+
   next({ type, payload })
+}

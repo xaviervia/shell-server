@@ -1,3 +1,5 @@
-export const NEW_INPUT = 'command/NEW_INPUT'
+export const NEW_STD_OUTPUT = 'command/NEW_STD_OUTPUT'
 
-export const NEW_ERROR = 'command/NEW_ERROR'
+export const NEW_STD_ERROR = 'command/NEW_STD_ERROR'
+
+export const NEW_SUGGESTIONS = 'command/NEW_SUGGESTIONS'

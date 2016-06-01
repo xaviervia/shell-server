@@ -1,17 +1,27 @@
 import { getSocket, startServer } from '../../services/server'
-import { newClient, newCommand } from './actions'
+import { newClient, newCommand, newUserInput } from './actions'
 import get from '../../lib/get'
+import { red } from 'chalk'
 
 export default ({ newState, getDiff, dispatch }) => {
   const serversDiff = getDiff(get('server.servers'))
   const inputsDiff = getDiff(get('command.inputs'))
+  const suggestionsDiff = getDiff(get('command.suggestions'))
 
   serversDiff.after &&
   serversDiff.after.map(serverData => {
     const server = startServer(serverData)
 
     server.handleConnect = (...xs) => dispatch(newClient(...xs))
-    server.handleMessage = (...xs) => dispatch(newCommand(...xs))
+    server.handleMessage = ({ type, payload, meta }) => {
+      switch (type) {
+        case 'SUBMIT':
+          return dispatch(newCommand({ ...payload, ...meta }))
+
+        case 'USER_INPUT':
+          return dispatch(newUserInput({ ...payload, ...meta }))
+      }
+    }
   })
 
   inputsDiff.after &&
@@ -21,4 +31,13 @@ export default ({ newState, getDiff, dispatch }) => {
 
     getSocket(socketKey).send(input)
   })
+
+  if (suggestionsDiff.after) {
+    console.log(red('ABOUT TO SEND'), newState.command.suggestions)
+
+    getSocket(newState.server.currentSocket).send({
+      type: 'NEW_SUGGESTIONS',
+      payload: newState.command.suggestions
+    })
+  }
 }
