@@ -48,7 +48,8 @@ export const onUserInput = (command, { server }, dispatch) => {
           key: path.resolve(server.workingDirectory, dir),
           name: dir,
           absolutePath: path.resolve(server.workingDirectory, dir),
-          type: 'directory'
+          type: 'directory',
+          replacementCommand: `cd ${dir}`
         }))
 
       process.nextTick(
