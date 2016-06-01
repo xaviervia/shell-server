@@ -20,6 +20,11 @@ export default ({ newState, getDiff, dispatch }) => {
 
         case 'USER_INPUT':
           return dispatch(newUserInput({ ...payload, ...meta }))
+
+        case 'GET_SESSION':
+          return dispatch(
+            newSession(payload.session, meta.socket.key)
+          )
       }
     }
   })

@@ -3,6 +3,7 @@ import {
   NEW_CLIENT,
   NEW_COMMAND,
   NEW_USER_INPUT,
+  NEW_SESSION,
   NEW_SERVER
 } from './actionTypes'
 
@@ -26,5 +27,13 @@ export const newServer = (port) => ({
   payload: {
     key: uuid.v4(),
     port
+  }
+})
+
+export const newSession = (sessionKey, socketKey) => ({
+  type: NEW_SESSION,
+  payload: {
+    session: sessionKey,
+    socket: socketKey
   }
 })
