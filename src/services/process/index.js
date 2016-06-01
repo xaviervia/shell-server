@@ -1,27 +1,27 @@
 import { spawn } from 'child_process'
+import type { Command, Error, Input } from '../../features/command/types'
+import type { Process, ProcessHandlers } from './types'
 import onError from './onError'
 import onInput from './onInput'
 
-const processes = []
+import sameKey from '../../lib/sameKey'
 
-const breakdownCommand = (line) => {
-  const [command, ...args] = line.split(' ')
+const processes: Array<Process> = []
 
-  return [
-    command,
-    args
-  ]
-}
-
-export const startProcess = ({ key, command, session }) => {
+export const startProcess = (
+  { key, command, session }: Command,
+  { handleError, handleInput }: ProcessHandlers
+): Process => {
   const spawned = spawn(...breakdownCommand(command))
-  const process = {
+  const process: Process = {
     key,
     command,
     session,
     process: spawned,
     input: [],
-    error: []
+    error: [],
+    handleInput,
+    handleError
   }
 
   processes.push(process)
@@ -32,5 +32,14 @@ export const startProcess = ({ key, command, session }) => {
   return process
 }
 
-export const getProcess = ({ key }) =>
-  processes.find(process => process.key === key)
+export const getProcess = ({ key }: Command):Process =>
+  processes.find(sameKey(key))
+
+const breakdownCommand = (line: string) => {
+  const [command, ...args] = line.split(' ')
+
+  return [
+    command,
+    args
+  ]
+}
