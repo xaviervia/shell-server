@@ -8,7 +8,7 @@ export const newError = (payload) => ({
   payload
 })
 
-export const newInput = (payload) => ({
+export const newStdOutput = (payload) => ({
   type: NEW_INPUT,
   payload
 })

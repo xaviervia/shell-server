@@ -1,20 +1,12 @@
 import { spawn } from 'child_process'
 import onError from './onError'
-import onInput from './onInput'
+import onStdError from './onStdError'
+import onStdOutput from './onStdOutput'
 
 const processes = []
 
-const breakdownCommand = (line) => {
-  const [command, ...args] = line.split(' ')
-
-  return [
-    command,
-    args
-  ]
-}
-
-export const startProcess = ({ key, command, session }) => {
-  const spawned = spawn(...breakdownCommand(command))
+export const startProcess = ({ key, command, session, currentWorkingDirectory }) => {
+  const spawned = spawn(...command, { cwd: currentWorkingDirectory })
   const process = {
     key,
     command,
@@ -26,8 +18,9 @@ export const startProcess = ({ key, command, session }) => {
 
   processes.push(process)
 
-  spawned.stdout.on('data', onInput(process))
-  spawned.stderr.on('data', onError(process))
+  spawned.stdout.on('data', onStdOutput(process))
+  spawned.stderr.on('data', onStdError(process))
+  spawned.on('error', onError(process))
 
   return process
 }
