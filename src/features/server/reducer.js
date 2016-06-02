@@ -4,7 +4,7 @@ import {
   NEW_COMMAND,
   NEW_USER_INPUT,
   NEW_SERVER,
-  NEW_SESSION
+  ADD_SOCKET_TO_SESSION
 } from './actionTypes'
 
 const initialState = {

@@ -3,7 +3,7 @@ import {
   NEW_CLIENT,
   NEW_COMMAND,
   NEW_USER_INPUT,
-  NEW_SESSION,
+  ADD_SOCKET_TO_SESSION,
   NEW_SERVER
 } from './actionTypes'
 
@@ -30,8 +30,8 @@ export const newServer = (port) => ({
   }
 })
 
-export const newSession = (sessionKey, socketKey) => ({
-  type: NEW_SESSION,
+export const addSocketToSession = (sessionKey, socketKey) => ({
+  type: ADD_SOCKET_TO_SESSION,
   payload: {
     session: sessionKey,
     socket: socketKey

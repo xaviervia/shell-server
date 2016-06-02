@@ -7,7 +7,6 @@ import { magenta } from 'chalk'
 
 export default ({ newState, getDiff, dispatch }) => {
   const commandsDiff = getDiff(get('server.commands'))
-  const pendingCommandDiff = getDiff(get('server.pendingCommand'))
 
   commandsDiff.after &&
   commandsDiff.after.map(command => {

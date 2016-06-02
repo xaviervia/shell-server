@@ -1,5 +1,5 @@
 import { getSocket, startServer } from '../../services/server'
-import { newClient, newCommand, newUserInput, newSession } from './actions'
+import { newClient, newCommand, newUserInput, addSocketToSession } from './actions'
 import get from '../../lib/get'
 import { red } from 'chalk'
 
@@ -23,7 +23,7 @@ export default ({ newState, getDiff, dispatch }) => {
 
         case 'GET_SESSION':
           return dispatch(
-            newSession(payload.session, meta.socket.key)
+            addSocketToSession(payload.session, meta.socket.key)
           )
       }
     }
