@@ -14,8 +14,7 @@ const initialState = {
   servers: [],
   pendingCommand: undefined,
   currentSocket: undefined,
-  workingDirectory: undefined,
-  magicCounter: 0
+  workingDirectory: undefined
 }
 
 export default handleActions({
@@ -37,8 +36,7 @@ export default handleActions({
     ...state,
     pendingCommand: payload.text,
     currentSocket: payload.socket.key,
-    workingDirectory: payload.workingDirectory,
-    magicCounter: state.magicCounter + 1
+    workingDirectory: payload.workingDirectory
   }),
 
   [NEW_SERVER]: (state, { type, payload }) => ({
