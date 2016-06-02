@@ -1,8 +1,7 @@
 import { handleActions } from 'redux-actions'
 import {
   NEW_STD_ERROR,
-  NEW_STD_OUTPUT,
-  NEW_SUGGESTIONS
+  NEW_STD_OUTPUT
 } from './actionTypes'
 
 const initialState = {
@@ -20,12 +19,5 @@ export default handleActions({
   [NEW_STD_OUTPUT]: (state, { type, payload }) => ({
     ...state,
     inputs: [...state.inputs ].concat(payload)
-  }),
-  [NEW_SUGGESTIONS]: (state, { type, payload }) => ({
-    ...state,
-    suggestions: {
-      context: payload.context,
-      entries: payload.suggestions
-    }
   })
 }, initialState)

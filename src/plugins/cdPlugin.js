@@ -1,13 +1,10 @@
 import { readdirSync, statSync } from 'fs'
 import path from 'path'
 import uuid from 'uuid'
-import { newStdOutput, newStdError, newSuggestions } from '../actions'
+import commandFeature from '../features/command'
+import suggestionsFeature from '../features/suggestions'
 
-export const onNewCommand = (
-  { command,  workingDirectory, key },
-  state,
-  dispatch
-) => {
+export const onNewCommand = ({ command,  workingDirectory, key }, state) => {
   if (command[0] === 'cd') {
     const resolvedNewPath = path.resolve(
       workingDirectory,
@@ -17,14 +14,14 @@ export const onNewCommand = (
     try {
       const stats = statSync(resolvedNewPath)
 
-      return newStdOutput({
+      return commandFeature.actions.newStdOutput({
         key: uuid.v4(),
         command: key,
         data: `New working directory: ${resolvedNewPath}`,
         workingDirectory: resolvedNewPath
       })
     } catch (e) {
-      return newStdOutput({
+      return commandFeature.actions.newStdOutput({
         key: uuid.v4(),
         command: key,
         data: `Failed to cd to ${resolvedNewPath}`
@@ -33,7 +30,7 @@ export const onNewCommand = (
   }
 }
 
-export const onUserInput = (command, { server }, dispatch) => {
+export const onPendingCommand = (command, { server }) => {
   try {
     if (command[0] === 'cd') {
       const dirs = readdirSync(path.resolve(server.workingDirectory))
@@ -52,9 +49,7 @@ export const onUserInput = (command, { server }, dispatch) => {
           replacementCommand: `cd ${dir}`
         }))
 
-      process.nextTick(
-        () => dispatch(newSuggestions(dirs, { command: server.pendingCommand }))
-      )
+      return suggestionsFeature.actions.setSuggestions(dirs, { command: server.pendingCommand })
     }
   } catch (e) {
     console.error('Autocompletion failed', e.message, e.stack)

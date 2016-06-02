@@ -1,7 +1,7 @@
 import { startProcess } from '../../services/process'
 import { newStdOutput, newStdError } from './actions'
 import get from '../../lib/get'
-import * as cdPlugin from './plugins/cdPlugin'
+import * as cdPlugin from '../../plugins/cdPlugin'
 import breakdownCommand from '../../lib/breakdownCommand'
 import { magenta } from 'chalk'
 
@@ -15,7 +15,7 @@ export default ({ newState, getDiff, dispatch }) => {
       ...command,
       command: breakdownCommand(command.command)
     }
-    const stdOutputAction = cdPlugin.onNewCommand(parsedCommand, newState, dispatch)
+    const stdOutputAction = cdPlugin.onNewCommand(parsedCommand, newState)
 
     if (!stdOutputAction) {
       const process = startProcess(parsedCommand)
@@ -26,12 +26,4 @@ export default ({ newState, getDiff, dispatch }) => {
       process.nextTick(() => dispatch(stdOutputAction))
     }
   })
-
-  if (pendingCommandDiff.after) {
-    console.log(magenta('PENDING COMMAND DIFF'), pendingCommandDiff)
-
-    const parsedCommand = breakdownCommand(pendingCommandDiff.after)
-
-    cdPlugin.onUserInput(parsedCommand, newState, dispatch)
-  }
 }

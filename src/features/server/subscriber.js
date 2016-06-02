@@ -6,7 +6,7 @@ import { red } from 'chalk'
 export default ({ newState, getDiff, dispatch }) => {
   const serversDiff = getDiff(get('server.servers'))
   const inputsDiff = getDiff(get('command.inputs'))
-  const suggestionsDiff = getDiff(get('command.suggestions'))
+  const suggestionsDiff = getDiff(get('suggestions.suggestions'))
 
   serversDiff.after &&
   serversDiff.after.map(serverData => {
@@ -42,7 +42,7 @@ export default ({ newState, getDiff, dispatch }) => {
 
     getSocket(newState.server.currentSocket).send({
       type: 'NEW_SUGGESTIONS',
-      payload: newState.command.suggestions
+      payload: newState.suggestions.suggestions
     })
   }
 }

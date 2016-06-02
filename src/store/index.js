@@ -1,7 +1,7 @@
 import { applyMiddleware, createStore, compose, combineReducers } from 'redux'
 import loggingMiddleware from '../lib/loggingMiddleware'
 
-export default ({ command, server }) =>
+export default ({ command, server, suggestions }) =>
   compose
     (applyMiddleware(
       loggingMiddleware
@@ -10,6 +10,7 @@ export default ({ command, server }) =>
     (
       combineReducers({
         command: command.reducer,
-        server: server.reducer
+        server: server.reducer,
+        suggestions: suggestions.reducer
       })
     )

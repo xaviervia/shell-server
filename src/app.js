@@ -1,13 +1,15 @@
 import configureStore from './store'
 import command from './features/command'
 import server from './features/server'
+import suggestions from './features/suggestions'
 import createSubscriptions from 'redux-subscriptions'
 import { black } from 'chalk'
 
 export default (ports) => {
   const store = configureStore({
     command,
-    server
+    server,
+    suggestions
   })
 
   store.subscribe(() =>
@@ -17,7 +19,8 @@ export default (ports) => {
   store.subscribe(
     createSubscriptions(store)(
       command.subscriber,
-      server.subscriber
+      server.subscriber,
+      suggestions.subscriber
     )
   )
 

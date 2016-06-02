@@ -1,3 +1,5 @@
 import app from './src/app'
 
-app([8080])
+const port = parseInt(process.argv[2], 10) || 8080
+
+app([port])
