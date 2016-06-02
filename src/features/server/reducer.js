@@ -3,7 +3,8 @@ import {
   NEW_CLIENT,
   NEW_COMMAND,
   NEW_USER_INPUT,
-  NEW_SERVER
+  NEW_SERVER,
+  NEW_SESSION
 } from './actionTypes'
 
 const initialState = {

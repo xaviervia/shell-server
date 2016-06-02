@@ -1,5 +1,5 @@
 import { getSocket, startServer } from '../../services/server'
-import { newClient, newCommand, newUserInput } from './actions'
+import { newClient, newCommand, newUserInput, newSession } from './actions'
 import get from '../../lib/get'
 import { red } from 'chalk'
 
