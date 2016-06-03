@@ -5,3 +5,5 @@ export type Action = {
   payload: any,
   meta: any
 }
+
+export type Dispatcher = (action: Action) => any

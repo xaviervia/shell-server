@@ -26,7 +26,7 @@ export type State = Array<Session>
 export const ADD_SESSION = 'sessions/ADD_SESSION'
 
 export type AddSession = {
-  type: ADD_SESSION,
+  type: string,
   payload: {
     key: Key,
     workingDirectory: string,
@@ -38,7 +38,7 @@ export type AddSession = {
 export const SET_SUGGESTIONS = 'sessions/SET_SUGGESTIONS'
 
 export type SetSuggestions = {
-  type: SET_SUGGESTIONS,
+  type: string,
   payload: {
     session: Key,
     context: {

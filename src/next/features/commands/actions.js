@@ -4,12 +4,12 @@ import type { Key } from '../../lib/types'
 
 export const addCommand = (
   input: string,
-  workingDirectory: string
+  workingDirectory: string,
   session: Key
 ):AddCommand => ({
   type: ADD_COMMAND,
   payload: {
-    input: 0,
+    input,
     workingDirectory,
     session
   }

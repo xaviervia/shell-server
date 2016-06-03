@@ -1,4 +1,4 @@
-import { ADD_SESSION } from './types'
+import { ADD_SESSION, SET_SUGGESTIONS } from './types'
 import type { AddSession, SetSuggestions, Suggestions, Suggestion } from './types'
 import type { Key } from '../../lib/types'
 
@@ -6,7 +6,7 @@ export const addSession = (
   key: Key,
   workingDirectory: ?string,
   pendingCommand: ?string,
-  suggestions: Suggestions?
+  suggestions: ?Suggestions
 ):AddSession => ({
   type: ADD_SESSION,
   payload: {

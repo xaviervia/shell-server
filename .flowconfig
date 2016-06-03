@@ -1,10 +1,14 @@
 [ignore]
 .*/node_modules/.*
 .*/src/prev/.*
+.*/src/next/lib/get.js
 .*/package.json
+.*/index.js
 
 [include]
 
 [libs]
+interfaces/
 
 [options]
+module.system=haste

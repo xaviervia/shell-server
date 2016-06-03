@@ -8,7 +8,9 @@ export type Client = {
 export type Server = {
   key: Key,
   port: number,
-  clients: Array<Client>
+  clients: {
+    [key: string]: Client
+  }
 }
 
 export type State = Array<Server>
@@ -16,14 +18,14 @@ export type State = Array<Server>
 export const ADD_SERVER = 'servers/ADD_SERVER'
 
 export type AddServer = {
-  type: ADD_SERVER,
+  type: string,
   payload: Server
 }
 
 export const ADD_CLIENT = 'servers/ADD_CLIENT'
 
 export type AddClient = {
-  type: ADD_CLIENT,
+  type: string,
   payload: {
     key: Key,
     server: Key

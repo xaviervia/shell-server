@@ -1,5 +1,5 @@
 import { ADD_SERVER, ADD_CLIENT } from './types'
-import type { AddServerAction, AddClientAction } from './types'
+import type { AddServer, AddClient } from './types'
 import type { Key } from '../../lib/types'
 import uuid from 'uuid'
 
@@ -8,7 +8,7 @@ export const addServer = (port: number):AddServer => ({
   payload: {
     key: uuid.v4(),
     port,
-    clients: []
+    clients: {}
   }
 })
 
